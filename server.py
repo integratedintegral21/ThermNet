@@ -1,7 +1,6 @@
 import socket
 import threading
 
-
 host = '192.168.8.105'
 port = 12343
 
@@ -15,6 +14,7 @@ while True:
     conn, addr = s.accept()
     print(f'Connected to:{addr}')
     conn.send(msg.encode())
+    
     while True:
         r_msg = conn.recv(1024)
 
