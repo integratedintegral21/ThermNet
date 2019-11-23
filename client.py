@@ -14,7 +14,7 @@ s.connect((host, port))
 
 r_msg = s.recv(1024)
 print(r_msg.decode())
-for i in range(5):
+while True:
     s_msg = str(sensor.get_temperature())
     s.send(s_msg)
     time.sleep(1)

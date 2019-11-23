@@ -1,16 +1,11 @@
 import socket
-import time
 import threading
 
-start_time = time.time()
-
-HEADERSIZE = 10
 
 host = '192.168.8.105'
 port = 12343
 
 msg = 'Hello there'
-r_msg = ''
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((host,port))
