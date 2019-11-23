@@ -11,19 +11,22 @@ s.bind((host,port))
 s.listen(5)
 
 while True:
-    conn, addr = s.accept()
-    conn.settimeout(5)
-    print(f'Connected to:{addr}')
-    conn.send(msg.encode())
+    try:
+        conn, addr = s.accept()
+        conn.settimeout(5)
+        print(f'Connected to:{addr}')
+        conn.send(msg.encode())
 
-    while True:
-        r_msg = conn.recv(1024)
-
-        if(r_msg.decode() != ""):
-            print(r_msg.decode())
-            if(r_msg.decode() == "break"):
-                conn.close()
-                break
+        while True:
+            r_msg = conn.recv(1024)
+            if(r_msg.decode() != ""):
+                print(r_msg.decode())
+                if(r_msg.decode() == "break"):
+                    conn.close()
+                    break
+    except socket.timeout as timeout:
+        print(f'Connection with {addr} timed out')
+        conn.close()
             
         
     conn.close()
