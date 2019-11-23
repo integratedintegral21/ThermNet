@@ -12,9 +12,10 @@ s.listen(5)
 
 while True:
     conn, addr = s.accept()
+    conn.settimeout(5)
     print(f'Connected to:{addr}')
     conn.send(msg.encode())
-    
+
     while True:
         r_msg = conn.recv(1024)
 
