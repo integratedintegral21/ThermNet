@@ -1,5 +1,6 @@
 import socket
-import threading
+import threading  
+
 
 host = '192.168.8.105'
 port = 12343
@@ -11,12 +12,13 @@ s.bind((host,port))
 s.listen(5)
 
 while True:
-    try:
-        conn, addr = s.accept()
-        conn.settimeout(5)
-        print(f'Connected to:{addr}')
-        conn.send(msg.encode())
+    
+    conn, addr = s.accept()
+    conn.settimeout(5)
+    print(f'Connected to:{addr}')
+    conn.send(msg.encode())
 
+    try:
         while True:
             r_msg = conn.recv(1024)
             if(r_msg.decode() != ""):
