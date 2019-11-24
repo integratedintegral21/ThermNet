@@ -1,6 +1,12 @@
 import socket
 import threading  
 
+def accept_connections(sck):
+    connection, address = sck.accept()
+    connection.settimeout(5)
+    print(f'Connected to:{address}')
+    return connection, address
+
 
 host = '192.168.8.105'
 port = 12343
@@ -13,10 +19,7 @@ s.listen(5)
 
 while True:
     
-    conn, addr = s.accept()
-    conn.settimeout(5)
-    print(f'Connected to:{addr}')
-    conn.send(msg.encode())
+    conn, addr = accept_connections(s)
 
     try:
         while True:
