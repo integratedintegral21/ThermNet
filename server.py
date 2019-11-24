@@ -20,6 +20,7 @@ s.listen(5)
 while True:
     
     conn, addr = accept_connections(s)
+    conn.send(msg.encode())
 
     try:
         while True:
