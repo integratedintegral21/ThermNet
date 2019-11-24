@@ -1,42 +1,44 @@
 import socket
 import threading  
 
+connections = list()
+
+msg = 'Hello there'
+
 def accept_connections(sck):
     connection, address = sck.accept()
-    connection.settimeout(5)
+    connection.settimeout(2)
     print(f'Connected to:{address}')
-    return connection, address
+    connections.append((connection,address))
+    connection.send(msg.encode())
 
 
 host = '192.168.8.105'
 port = 12343
 
-msg = 'Hello there'
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((host,port))
 s.listen(5)
 
 while True:
-    
-    conn, addr = accept_connections(s)
-    conn.send(msg.encode())
-
+    accept_connections(s)
     try:
         while True:
-            r_msg = conn.recv(1024)
+            r_msg = connections[0][0].recv(1024)
             if(r_msg.decode() != ""):
                 f_msg = float(r_msg.decode())
                 print(round(f_msg,1))
                 if(r_msg.decode() == "break"):
-                    conn.close()
+                    connections[0][0].close()
                     break
     except socket.timeout as timeout:
-        print(f'Connection with {addr} timed out')
-        conn.close()
+        print(f'Connection with {connections[0][1]} timed out')
+        connections[0][0].close()
+        connections.pop(0)
             
-        
-    conn.close()
+    for i in connections:    
+        connections[i][0].close()
     
 
     
