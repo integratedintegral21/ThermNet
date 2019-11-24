@@ -36,6 +36,8 @@ while True:
         print(f'Connection with {connections[0][1]} timed out')
         connections[0][0].close()
         connections.pop(0)
+    except socket.error as error:
+        print(error.errno)
             
     for i in connections:    
         connections[i][0].close()

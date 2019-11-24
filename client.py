@@ -15,9 +15,14 @@ s.connect((host, port))
 r_msg = s.recv(1024)
 print(r_msg.decode())
 while True:
-    s_msg = str(sensor.get_temperature())
-    s.send(s_msg)
-    time.sleep(1)
+    try:
+        s_msg = str(sensor.get_temperature())
+        s.send(s_msg.encode("UTF-8"))
+        time.sleep(0.1)
+    except socket.error as error:
+        print(error.errno)
+        s.close()
+        s.connect((host, port))
     
 s.send("break")
 
