@@ -20,7 +20,8 @@ while True:
         while True:
             r_msg = conn.recv(1024)
             if(r_msg.decode() != ""):
-                print(r_msg.decode())
+                f_msg = float(r_msg.decode())
+                print(round(f_msg,1))
                 if(r_msg.decode() == "break"):
                     conn.close()
                     break
