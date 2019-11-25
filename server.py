@@ -12,11 +12,16 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
 class MyTCP(socketserver.TCPServer):
      
-     def __init__(self,address,handler):
+    def __init__(self,address,handler):
          super().__init__(address,handler)
-         self.timeout = 3
+         self.timeout = 3   
+    def handle_timeout(self):
+        print(TimeoutError)
+    
                 
 
 
 server = MyTCP((HOST, PORT),TCPHandler)
-server.serve_forever()
+
+while True:
+    server.handle_request()
