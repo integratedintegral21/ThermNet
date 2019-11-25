@@ -9,6 +9,14 @@ class TCPHandler(socketserver.BaseRequestHandler):
         while True:
             self.data = self.request.recv(1024).strip().decode()
             print("Received: ", self.data, "from: "+ format(self.client_address[0]) +"")
+
+class MyTCP(socketserver.TCPServer):
+     
+     def __init__(self,address,handler):
+         super().__init__(address,handler)
+         self.timeout = 3
                 
-server = socketserver.TCPServer((HOST, PORT),TCPHandler)
+
+
+server = MyTCP((HOST, PORT),TCPHandler)
 server.serve_forever()
