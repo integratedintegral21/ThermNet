@@ -1,27 +1,27 @@
 import socket
-import socketserver
+from _thread import *
+import sys
 
-HOST, PORT = '192.168.8.105', 12345
+host, port = '192.168.8.105', 12345
 
-class TCPHandler(socketserver.BaseRequestHandler):
-    
-    def handle(self):
-        while True:
-            self.data = self.request.recv(1024).strip().decode()
-            print("Received: ", self.data, "from: "+ format(self.client_address[0]) +"")
+def handleClient(conn,addr):
+    while True:
+        data = conn.recv(1024)
+        print(data.decode())
+    conn.close()
 
-class MyTCP(socketserver.TCPServer):
-     
-    def __init__(self,address,handler):
-         super().__init__(address,handler)
-         self.timeout = 3   
-    def handle_timeout(self):
-        print(TimeoutError)
-    
-                
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+try:
+    s.bind((host,port))
+except socket.error:
+    print("Binding failed")
+    sys.exit()
 
-server = MyTCP((HOST, PORT),TCPHandler)
+print("Socket bounded")
+s.listen(10)
 
 while True:
-    server.handle_request()
+    connection, address = s.accept()
+    print(f"Connected with {address}")
+    start_new_thread(handleClient, (connection,address,))
