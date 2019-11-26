@@ -7,7 +7,9 @@ host, port = '192.168.8.105', 12345
 def handleClient(conn,addr):
     while True:
         data = conn.recv(1024)
+        print(f"Message from:{address}")
         print(data.decode())
+    print(f"Connection with: {address} closed")
     conn.close()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
