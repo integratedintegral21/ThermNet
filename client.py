@@ -6,7 +6,12 @@ HOST, PORT = '192.168.8.105', 12345
 msg = 'Hello from the other side!'
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-therm = w1thermsensor.W1ThermSensor()
+
+try:
+    therm = w1thermsensor.W1ThermSensor()
+except SystemError:
+    print("w1 thermsensor initialization failed")
+
 
 try:
     s.connect((HOST,PORT))
