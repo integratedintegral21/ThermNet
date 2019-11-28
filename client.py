@@ -2,26 +2,35 @@ import socket
 import time
 import w1thermsensor
 import sys
+import threading
+
+msg = "---"
+
+def tempThread(sensor):
+    global msg
+    msg = round(sensor.get_temperature(),1)   
+
 
 HOST, PORT = '192.168.8.105', 12345
-msg = 'Hello from the other side!'
+welcome_msg = 'Hello from the other side!'
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+ 
 try:
     therm = w1thermsensor.W1ThermSensor()
+    test = therm.get_temperature()
+    t_thread = threading.Thread(target=tempThread, args=(therm,))
+    t_thread.start()
 except w1thermsensor.errors.SensorNotReadyError:
     print("w1 thermsensor initialization failed")
 except  w1thermsensor.errors.NoSensorFoundError:
-    print("w1 thermsensor not found")
-
+    print("w1 bus failed")
 
 
 try:
     s.connect((HOST,PORT))
-    s.sendall(msg.encode())
+    s.sendall(welcome_msg.encode())
     while True:
-        msg = round(therm.get_temperature(),1)
         s.send(str(msg))
         time.sleep(1)
 
