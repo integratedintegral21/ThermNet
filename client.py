@@ -7,8 +7,9 @@ import threading
 msg = "---"
 
 def tempThread(sensor):
-    global msg
-    msg = round(sensor.get_temperature(),1)   
+    while True:
+        global msg
+        msg = round(sensor.get_temperature(),1)   
 
 
 HOST, PORT = '192.168.8.105', 12345
