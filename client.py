@@ -9,7 +9,12 @@ msg = "---"
 def tempThread(sensor):
     while True:
         global msg
-        msg = round(sensor.get_temperature(),1)   
+        try:
+            msg = "temperature: " + str(round(sensor.get_temperature(),1))   
+        except w1thermsensor.errors.SensorNotReadyError:
+            print("therm sensor disconnected")
+            msg = 'disconnected'
+            time.sleep(1)
 
 
 HOST, PORT = '192.168.8.105', 12345
