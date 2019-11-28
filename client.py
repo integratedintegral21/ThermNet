@@ -19,8 +19,6 @@ def tempThread(sensor):
 
 HOST, PORT = '192.168.8.105', 12345
 welcome_msg = 'Hello from the other side!'
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
  
 try:
     therm = w1thermsensor.W1ThermSensor()
@@ -33,13 +31,20 @@ except  w1thermsensor.errors.NoSensorFoundError:
     print("w1 bus failed")
 
 
-
-s.connect((HOST,PORT))
-s.sendall(welcome_msg.encode())
-
 while True:
-    try:
-        s.send(str(msg))
-    except socket.error as err:
-        raise
-    time.sleep(1)
+    print("Connecting...")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST,PORT))
+    s.sendall(welcome_msg.encode())
+    print("Connected to " + HOST)
+    while True:
+        try:
+            s.send(str(msg))
+            time.sleep(1)
+        except socket.error as err:
+            if err.errno == errno.ECONNRESET:
+                print("Disconnected")
+                break
+            else:
+                raise
+    s.close()
