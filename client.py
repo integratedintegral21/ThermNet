@@ -3,6 +3,7 @@ import time
 import w1thermsensor
 import sys
 import threading
+import errno
 
 msg = "---"
 
@@ -15,7 +16,6 @@ def tempThread(sensor):
             print("therm sensor disconnected")
             msg = 'disconnected'
             time.sleep(1)
-
 
 HOST, PORT = '192.168.8.105', 12345
 welcome_msg = 'Hello from the other side!'
@@ -33,12 +33,13 @@ except  w1thermsensor.errors.NoSensorFoundError:
     print("w1 bus failed")
 
 
-try:
-    s.connect((HOST,PORT))
-    s.sendall(welcome_msg.encode())
-    while True:
-        s.send(str(msg))
-        time.sleep(1)
 
-finally:
-    s.close()
+s.connect((HOST,PORT))
+s.sendall(welcome_msg.encode())
+
+while True:
+    try:
+        s.send(str(msg))
+    except socket.error as err:
+        raise
+    time.sleep(1)

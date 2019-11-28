@@ -27,7 +27,7 @@ class Client(threading.Thread):
             print("Connection with ", address, " timed out")
             clients.remove(self)
             self.conn.close()
-        print(f"Connection with: {address} closed")
+        print("Connection with ", address , " closed")
         self.conn.close()
     
 
