@@ -7,22 +7,28 @@ clients = list()
 
 class Client(threading.Thread):
 
-    conn = 0
-    addr = 0
-
-    def handleClient(self,conn,addr):
-        while True:
-            data = conn.recv(1024)
-            print(f"Message from:{address}")
-            print(data.decode())
-        print(f"Connection with: {address} closed")
-        conn.close()
+    conn = None
+    addr = None
 
     def __init__(self,conn,addr):
         self.conn = conn
         self.addr = addr
-        super().__init__(target=self.handleClient,args=(self.conn,self.addr,))
+        self.conn.settimeout(3)
+        super().__init__(target=self.handleClient)
         self.start()
+
+    def handleClient(self):
+        try:
+            while True:
+                data = self.conn.recv(1024)
+                print(f"Message from:{address}")
+                print(data.decode())
+        except socket.timeout:
+            print("Connection with ", address, " timed out")
+            clients.remove(self)
+            self.conn.close()
+        print(f"Connection with: {address} closed")
+        self.conn.close()
     
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
