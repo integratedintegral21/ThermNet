@@ -1,8 +1,9 @@
 import socket
-from _thread import *
+import threading
 import sys
 
 host, port = '192.168.8.105', 12345
+threads = list()
 
 def handleClient(conn,addr):
     while True:
@@ -26,4 +27,5 @@ s.listen(10)
 while True:
     connection, address = s.accept()
     print(f"Connected with {address}")
-    start_new_thread(handleClient, (connection,address,))
+    threads.append(threading.Thread(target=handleClient,args=(connection,address,)))
+    threads[len(threads) - 1].start()
