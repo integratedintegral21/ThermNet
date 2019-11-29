@@ -37,14 +37,19 @@ while True:
     s.connect((HOST,PORT))
     s.sendall(welcome_msg.encode())
     print("Connected to " + HOST)
-    while True:
-        try:
-            s.send(str(msg))
+    try:
+        while True:
+            s.send(str(msg).encode())
             time.sleep(1)
-        except socket.error as err:
-            if err.errno == errno.ECONNRESET:
-                print("Disconnected")
-                break
+    except socket.error as err:
+        if err.errno == errno.ECONNRESET:
+            print("Disconnected")
+            ans = str(input("Do you want to connect again? [Y/n]"))
+            if(ans.upper() == "Y"):
+                pass
             else:
-                raise
+                sys.exit(0)
+        else:
+            raise
     s.close()
+
