@@ -36,7 +36,7 @@ while True:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST,PORT))
     s.sendall(welcome_msg.encode())
-    print("Connected to " + HOST)
+    print("Connected with " + HOST)
     try:
         while True:
             s.send(str(msg).encode())
