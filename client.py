@@ -17,8 +17,8 @@ def tempThread(sensor):
             msg = 'disconnected'
             time.sleep(1)
 
-HOST, PORT = '192.168.8.105', 12345
-welcome_msg = 'Hello from the other side!'
+HOST, PORT = '192.168.8.105', 12345 ## ip address of a server you want to connect with
+welcome_msg = 'Hello from the other side!' 
  
 try:
     therm = w1thermsensor.W1ThermSensor()
@@ -33,10 +33,13 @@ except  w1thermsensor.errors.NoSensorFoundError:
 
 while True:
     print("Connecting...")
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST,PORT))
     s.sendall(welcome_msg.encode())
+
     print("Connected with " + HOST)
+
     try:
         while True:
             s.send(str(msg).encode())

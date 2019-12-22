@@ -2,7 +2,7 @@ import socket
 import threading
 import sys
 
-host, port = '192.168.8.105', 12345
+host, port = '192.168.8.105', 12345 ##your ip address and port you want to use
 clients = list()
 
 class Client(threading.Thread):
