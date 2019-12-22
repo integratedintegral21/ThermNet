@@ -3,10 +3,8 @@ import time
 import w1thermsensor
 
 sensor = w1thermsensor.W1ThermSensor()
-
-HEADERSIZE = 10
      
-host = '192.168.8.105'
+host = '192.168.8.105' ##ip address of server you want to connect with
 port = 12343 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

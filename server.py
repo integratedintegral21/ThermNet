@@ -13,7 +13,7 @@ def accept_connections(sck):
     connection.send(msg.encode())
 
 
-host = '192.168.8.105'
+host = '192.168.8.105' ##your ip address
 port = 12343
 
 
