@@ -1,3 +1,5 @@
+## Created by: Wojciech Boncela
+
 import socket
 import time
 import w1thermsensor
