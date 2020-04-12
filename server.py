@@ -1,10 +1,8 @@
-## Created by: Wojciech Boncela
-
 import socket
 import threading
 import sys
 
-host, port = '192.168.8.105', 12345 ##your ip address and port you want to use
+host, port = '192.168.8.100', 12345 ##your ip address and port
 clients = list()
 
 class Client(threading.Thread):
@@ -39,13 +37,16 @@ try:
     s.bind((host,port))
 except socket.error:
     print("Binding failed")
-    sys.exit()
+    sys.exit(0)
 
 print("Socket bounded")
 s.listen(10)
 
 while True:
-    connection, address = s.accept()
-    print(f"Connected with {address}")
-    new_client = Client(connection,address)
-    clients.append(new_client)
+    try:
+        connection, address = s.accept()
+        print(f"Connected with {address}")
+        new_client = Client(connection,address)
+        clients.append(new_client)
+    except Exception:
+        sys.exit(0)

@@ -1,5 +1,3 @@
-## Created by: Wojciech Boncela
-
 import socket
 import time
 import w1thermsensor
@@ -19,7 +17,7 @@ def tempThread(sensor):
             msg = 'disconnected'
             time.sleep(1)
 
-HOST, PORT = '192.168.8.105', 12345 ## ip address of a server you want to connect with
+HOST, PORT = '192.168.8.100', 12345 ## ip address of the server
 welcome_msg = 'Hello from the other side!' 
  
 try:
@@ -29,8 +27,10 @@ try:
     t_thread.start()
 except w1thermsensor.errors.SensorNotReadyError:
     print("w1 thermsensor initialization failed")
+    sys.exit(0)
 except  w1thermsensor.errors.NoSensorFoundError:
     print("w1 bus failed")
+    sys.exit(0)
 
 
 while True:
