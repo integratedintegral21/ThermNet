@@ -17,7 +17,7 @@ def tempThread(sensor):
             msg = 'disconnected'
             time.sleep(1)
 
-HOST, PORT = '192.168.8.100', 12345 ## ip address of the server
+HOST, PORT = '192.168.8.100', 12345 ## server socket
 welcome_msg = 'Hello from the other side!' 
  
 try:
